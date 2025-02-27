@@ -1,0 +1,29 @@
+name: Terraform Infra Plan
+
+on:
+  push:
+    branches: feature12  # Run plan when a PR is opened against main
+
+jobs:
+  terraform:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+env:
+  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  aws-region: "ap-south-1"
+steps:
+  - name: Checkout code
+      uses: actions/checkout@v4
+
+  - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+    with:
+        terraform_version: 1.6.0
+  - name: Initialize Terraform
+      run: terraform init
+  - name: Terraform Plan
+      id: Plan
+     -if: github.event_name == "push"
+      run: terraform plan -no-color 
+  
