@@ -14,16 +14,18 @@ env:
   aws-region: "ap-south-1"
 steps:
   - name: Checkout code
-      uses: actions/checkout@v4
+    uses: actions/checkout@v4
 
   - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+    uses: hashicorp/setup-terraform@v3
     with:
-        terraform_version: 1.6.0
+      terraform_version: 1.6.0
   - name: Initialize Terraform
-      run: terraform init
+    run: terraform init
+  - name: Terraform Validate
+    run: terraform validate
   - name: Terraform Plan
-      id: Plan
-     -if: github.event_name == "push"
-      run: terraform plan -no-color 
+    id: Plan
+    if: github.event_name == "push"
+    run: terraform plan -no-color 
   
