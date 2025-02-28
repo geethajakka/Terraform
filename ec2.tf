@@ -19,7 +19,7 @@ resource "aws_subnet" "aws_subnet_demo" {
 
 resource "aws_network_interface" "aws_network_interface_demo" {
   subnet_id = aws_subnet.aws_subnet_demo.id
-  private_ip = ["172.16.10.100"]
+  private_ip = "172.16.10.100"
   tags = {
     Name="network_interface_demo"
   }
@@ -28,13 +28,15 @@ resource "aws_network_interface" "aws_network_interface_demo" {
 resource "aws_security_group" "aws_security_group_demo" {
   name = "${random_pet.sg.id}-sg"
   vpc_id = aws_vpc.aws_vpc_demo.id
-  ingress = {
-    from_port="8080"
-    to_port="8080"
-    protocol="tcp"
-    cidr_block=["0.0.0.0/0"]
-
+  ingress = [
+  {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Note: 'cidr_blocks' (plural) not 'cidr_block'
   }
+]
+
 }
 
 resource "aws_instance" "aws_ec2_demo" {
