@@ -4,7 +4,7 @@ terraform {
     bucket         = "mytfstatefile987"
     key            = "terraform.tfstate"
     region         = "ap-south-1"
-    #encrypt        = true
+    
     #dynamodb_table = "terraform-lock"
   }
 }
